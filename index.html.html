@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anam Javed</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Courier+Prime:wght@400;700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one calm column; the hero is a library catalog card (a nod to Book Hub), everything else is plain and quiet. */
+:root {
+  --paper: #F1F4F2;
+  --surface: #FBFCFB;
+  --ink: #17201C;
+  --muted: #53615A;
+  --line: #CBD5CF;
+  --accent: #1F5F4A;
+  --accent-ink: #FFFFFF;
+  --stamp: #B3402A;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --font-card: "Courier Prime", "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111715; --surface: #18201D; --ink: #E7EEEA; --muted: #9BAAA2;
+    --line: #2C3833; --accent: #6CCBA6; --accent-ink: #0E1512; --stamp: #E58A73;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111715; --surface: #18201D; --ink: #E7EEEA; --muted: #9BAAA2;
+  --line: #2C3833; --accent: #6CCBA6; --accent-ink: #0E1512; --stamp: #E58A73;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-block: 20px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1040px; margin-inline: auto; display: flex; flex-direction: column; gap: 72px; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* top bar */
+.bar { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center; }
+.bar .mark { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.01em; }
+.bar nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 14px; }
+.bar nav a { color: var(--muted); text-decoration: none; }
+.bar nav a:hover { color: var(--ink); text-decoration: underline; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 48px; align-items: center; }
+.eyebrow { font-family: var(--font-card); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+h1 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(44px, 8vw, 84px); line-height: 0.98; letter-spacing: -0.02em;
+  margin: 0 0 20px; text-wrap: balance;
+}
+.role { font-size: 18px; font-weight: 500; margin: 0 0 16px; max-width: 34ch; text-wrap: balance; }
+.lede { color: var(--muted); max-width: 56ch; margin: 0 0 28px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  font: inherit; font-weight: 600; font-size: 15px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 18px; border-radius: 8px; text-decoration: none;
+  border: 1.5px solid var(--accent);
+}
+.btn.solid { background: var(--accent); color: var(--accent-ink); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn:hover { filter: brightness(1.08); }
+
+/* catalog card */
+.card-stage { display: flex; justify-content: center; min-width: 0; }
+.catalog {
+  position: relative; width: 100%; max-width: 430px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+  padding: 26px 24px 64px 24px;
+  font-family: var(--font-card); font-size: 15px; line-height: 1.55;
+  transform: rotate(1.6deg);
+  box-shadow: 0 1px 0 var(--line), 0 14px 30px -18px rgba(0,0,0,0.45);
+}
+.catalog .call { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 13px; letter-spacing: 0.06em; }
+.catalog .head { margin: 12px 0 0; padding-bottom: 10px; border-bottom: 2px solid var(--stamp); font-weight: 700; font-size: 20px; letter-spacing: 0.02em; }
+.catalog dl { margin: 14px 0 0; display: grid; grid-template-columns: 7.5ch minmax(0, 1fr); gap: 8px 12px; }
+.catalog dt { color: var(--muted); }
+.catalog dd { margin: 0; overflow-wrap: anywhere; }
+.catalog::after {
+  content: ""; position: absolute; left: 50%; bottom: 20px; width: 16px; height: 16px; margin-left: -8px;
+  border-radius: 50%; background: var(--paper); border: 1px solid var(--line);
+}
+
+/* sections */
+section { display: flex; flex-direction: column; gap: 28px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px; border-top: 1px solid var(--line); padding-top: 18px; }
+h2 { font-family: var(--font-display); font-weight: 700; font-size: 28px; letter-spacing: -0.01em; margin: 0; }
+.sec-note { color: var(--muted); font-size: 14px; margin: 0; }
+
+.projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.project { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 24px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.project .kind { font-family: var(--font-card); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--stamp); margin: 0; }
+.project h3 { font-family: var(--font-display); font-size: 24px; line-height: 1.15; margin: 0; }
+.project ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+.project li::marker { color: var(--accent); }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding: 0; list-style: none; }
+.tags li { font-family: var(--font-card); font-size: 13px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+
+.skills { display: grid; grid-template-columns: 170px minmax(0, 1fr); border-top: 1px solid var(--line); margin: 0; }
+.skills dt, .skills dd { padding: 14px 0; border-bottom: 1px solid var(--line); margin: 0; }
+.skills dt { font-family: var(--font-card); font-weight: 700; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.skills dd { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.skills dd span::after { content: ""; }
+
+.jobs { display: flex; flex-direction: column; gap: 32px; }
+.job { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 8px 24px; }
+.job .when { font-family: var(--font-card); font-size: 14px; color: var(--muted); }
+.job h3 { margin: 0 0 2px; font-family: var(--font-display); font-size: 20px; }
+.job .where { margin: 0 0 10px; color: var(--muted); }
+.job ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.job li::marker { color: var(--accent); }
+
+.edu-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.edu { border-top: 2px solid var(--ink); padding-top: 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.edu .yr { font-family: var(--font-card); font-size: 14px; color: var(--muted); }
+.edu h3 { font-family: var(--font-display); font-size: 19px; line-height: 1.25; margin: 0; }
+.edu p { margin: 0; color: var(--muted); }
+.edu .score { font-family: var(--font-card); color: var(--ink); font-weight: 700; margin-top: 6px; font-variant-numeric: tabular-nums; }
+
+.certs { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.certs li { display: flex; flex-direction: column; gap: 2px; padding-left: 14px; border-left: 3px solid var(--accent); }
+.certs strong { font-weight: 600; }
+.certs span { color: var(--muted); font-size: 14px; }
+
+.contact { background: var(--accent); color: var(--accent-ink); border-radius: 10px; padding: 36px 28px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px 40px; }
+.contact h2 { color: inherit; font-size: clamp(28px, 5vw, 40px); line-height: 1.1; text-wrap: balance; }
+.contact p { margin: 10px 0 0; opacity: 0.9; max-width: 38ch; }
+.rows { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; border-bottom: 1px solid color-mix(in srgb, var(--accent-ink) 35%, transparent); padding-bottom: 14px; }
+.row .lbl { font-family: var(--font-card); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; width: 72px; opacity: 0.85; }
+.row .val { font-family: var(--font-card); font-size: 16px; overflow-wrap: anywhere; flex: 1 1 160px; min-width: 0; user-select: all; }
+.row a.val { color: inherit; }
+.copy { font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; background: transparent; color: inherit; border: 1.5px solid currentColor; border-radius: 6px; padding: 4px 10px; }
+.copy:hover { background: color-mix(in srgb, var(--accent-ink) 14%, transparent); }
+.contact a:focus-visible, .contact button:focus-visible { outline-color: var(--accent-ink); }
+
+footer { color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .projects, .edu-grid, .certs, .contact { grid-template-columns: minmax(0, 1fr); }
+  .job { grid-template-columns: minmax(0, 1fr); }
+  .skills { grid-template-columns: minmax(0, 1fr); }
+  .skills dt { padding-bottom: 2px; border-bottom: 0; }
+  .skills dd { padding-top: 0; }
+  .wrap { gap: 56px; }
+}
+@media (max-width: 420px) {
+  .catalog { transform: none; padding: 22px 18px 60px; }
+  .catalog dl { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .catalog dd { margin-bottom: 8px; }
+  .contact { padding: 28px 20px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body{margin:0}
+[hidden]{display:none!important}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <span class="mark">Anam Javed</span>
+    <nav aria-label="Sections">
+      <a href="#work">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="wrap" style="gap:72px">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">BS Computer Science, 2026</p>
+        <h1>Anam Javed</h1>
+        <p class="role">Junior full-stack web developer (PHP, MySQL) and Android developer (Java).</p>
+        <p class="lede">I build database-driven web systems and native Android apps. My work centres on clean MySQL structure, responsive Bootstrap interfaces and secure PHP back ends. Before software, I spent three years teaching, which taught me to explain things clearly and keep to deadlines.</p>
+        <div class="actions">
+          <a class="btn solid" href="#work">See my projects</a>
+          <a class="btn ghost" href="https://github.com/anam17javed-hash" target="_blank" rel="noopener">GitHub profile</a>
+        </div>
+      </div>
+
+      <div class="card-stage">
+        <div class="catalog" role="img" aria-label="Catalog card summarising Anam Javed">
+          <div class="call"><span>BS-CS / 2026</span><span>GCU Faisalabad</span></div>
+          <p class="head">JAVED, ANAM</p>
+          <dl>
+            <dt>Title</dt><dd>Junior Full-Stack Web Developer; Android Developer</dd>
+            <dt>Degree</dt><dd>BS Computer Science, 2022 to 2026</dd>
+            <dt>CGPA</dt><dd>3.41 / 4.0</dd>
+            <dt>Subjects</dt><dd>PHP, MySQL, Bootstrap, Java, Android</dd>
+            <dt>Held at</dt><dd>Burewala, Punjab</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <section id="work" aria-labelledby="h-work">
+      <div class="sec-head">
+        <h2 id="h-work">Projects</h2>
+        <p class="sec-note">One web platform, one Android app.</p>
+      </div>
+      <div class="projects">
+        <article class="project">
+          <p class="kind">Full-stack final year project</p>
+          <h3>Book Hub, an online book store</h3>
+          <ul>
+            <li>A responsive e-commerce platform where people browse, search and buy books online.</li>
+            <li>Front end built with HTML, CSS and JavaScript; back end written securely in PHP.</li>
+            <li>MySQL database that stores book inventory and user profiles securely.</li>
+          </ul>
+          <ul class="tags" aria-label="Technologies">
+            <li>PHP</li><li>MySQL</li><li>JavaScript</li><li>HTML</li><li>CSS</li>
+          </ul>
+        </article>
+
+        <article class="project">
+          <p class="kind">Semester 7 project</p>
+          <h3>Alarm App for Android</h3>
+          <ul>
+            <li>A native Android alarm app written in Java and XML.</li>
+            <li>Set alarms, snooze, repeat on chosen days, and pick a custom ringtone and vibration.</li>
+            <li>Alarm settings persist between launches using SharedPreferences.</li>
+            <li>Responsive interface following Material Design.</li>
+          </ul>
+          <ul class="tags" aria-label="Technologies">
+            <li>Java</li><li>XML</li><li>Android</li><li>Material Design</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills" aria-labelledby="h-skills">
+      <div class="sec-head">
+        <h2 id="h-skills">Skills</h2>
+        <p class="sec-note">What I use to build.</p>
+      </div>
+      <dl class="skills">
+        <dt>Web</dt><dd><span>PHP</span><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Bootstrap</span></dd>
+        <dt>Database</dt><dd><span>MySQL</span><span>Database management</span></dd>
+        <dt>Mobile</dt><dd><span>Java</span><span>XML</span><span>Android with Material Design</span></dd>
+        <dt>Security</dt><dd><span>AES encryption</span><span>Data hiding</span></dd>
+        <dt>Tools</dt><dd><span>GitHub</span><span>AI-assisted web and app development</span></dd>
+        <dt>Working style</dt><dd><span>Time management</span><span>Communication</span><span>Mentoring</span></dd>
+        <dt>Languages</dt><dd><span>English</span><span>Urdu</span></dd>
+      </dl>
+    </section>
+
+    <section id="experience" aria-labelledby="h-exp">
+      <div class="sec-head">
+        <h2 id="h-exp">Experience</h2>
+        <p class="sec-note">Six years of teaching, coordination and community work.</p>
+      </div>
+      <div class="jobs">
+        <article class="job">
+          <div class="when">3 years</div>
+          <div>
+            <h3>Teacher</h3>
+            <p class="where">Khalid Science Academy, Burewala</p>
+            <ul>
+              <li>Taught several core subjects to primary and secondary students.</li>
+              <li>Planned and delivered lessons, ran the classroom and assessed student performance.</li>
+              <li>Counselled students and kept student records.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="job">
+          <div class="when">3 years</div>
+          <div>
+            <h3>Academic and volunteer initiatives</h3>
+            <p class="where">Burewala</p>
+            <ul>
+              <li>Organised data and mentored students; managed academic schedules, full-book test plans and tracking tools.</li>
+              <li>Contributed to regional digital initiatives that needed structured data collection and strict deadline tracking.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="education" aria-labelledby="h-edu">
+      <div class="sec-head">
+        <h2 id="h-edu">Education and certifications</h2>
+      </div>
+      <div class="edu-grid">
+        <article class="edu">
+          <span class="yr">2022 to 2026</span>
+          <h3>BS Computer Science</h3>
+          <p>Government College University Faisalabad</p>
+          <span class="score">CGPA 3.41 / 4.0</span>
+        </article>
+        <article class="edu">
+          <span class="yr">Intermediate</span>
+          <h3>Punjab College Burewala</h3>
+          <p>Higher secondary</p>
+          <span class="score">742 / 1100</span>
+        </article>
+        <article class="edu">
+          <span class="yr">Matric</span>
+          <h3>Govt. Girls High School 168/9-L</h3>
+          <p>Secondary</p>
+          <span class="score">935 / 1100</span>
+        </article>
+      </div>
+      <ul class="certs">
+        <li><strong>Cyber Security Virtual Internship</strong><span>Deloitte Australia, July 2026</span></li>
+        <li><strong>AI for Business Professionals</strong><span>HP Foundation, December 2025</span></li>
+        <li><strong>Professional Networking for Career Growth</strong><span>HP Foundation, December 2025</span></li>
+      </ul>
+    </section>
+
+    <section id="contact" aria-labelledby="h-contact">
+      <div class="contact">
+        <div>
+          <h2 id="h-contact">Looking for a junior developer?</h2>
+          <p>I am open to PHP and MySQL web roles and Android work. Send me a message or look through my code on GitHub.</p>
+        </div>
+        <div class="rows">
+          <div class="row">
+            <span class="lbl">Email</span>
+            <span class="val" id="v-email">anamjaved0768@gmail.com</span>
+            <button class="copy" type="button" data-copy="v-email" id="c-email">Copy</button>
+          </div>
+          <div class="row">
+            <span class="lbl">GitHub</span>
+            <a class="val" href="https://github.com/anam17javed-hash" target="_blank" rel="noopener">github.com/anam17javed-hash</a>
+          </div>
+          <div class="row">
+            <span class="lbl">Based in</span>
+            <span class="val">Burewala, Punjab</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Anam Javed</span>
+      <span>BS Computer Science, Government College University Faisalabad</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var src = document.getElementById(btn.getAttribute('data-copy'));
+    var text = src.textContent.trim();
+    function done() {
+      btn.textContent = 'Copied';
+      setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+    }
+    function fallback() {
+      var r = document.createRange();
+      r.selectNodeContents(src);
+      var s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+      btn.textContent = 'Selected';
+      setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+    }
+    try {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } catch (e) { fallback(); }
+  });
+});
+</script>
+</body>
+</html>
